@@ -1,0 +1,6 @@
+name = "ai-nav-site"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".next"
+
+[account]
+id = "456e0fbac58851ecdc0d03e0facfea95"
