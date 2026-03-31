@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
-import GoogleLoginButton from './GoogleLoginButton';
+// Google 登录已隐藏（暂时禁用）
+// import GoogleLoginButton from './GoogleLoginButton';
 
 export default function UserMenu() {
   const [user, setUser] = useState<any>(null);
@@ -43,5 +44,5 @@ export default function UserMenu() {
     );
   }
 
-  return <GoogleLoginButton />;
+  return null; // 隐藏登录按钮
 }

@@ -41,8 +41,10 @@ export default function Header() {
         {/* Nav */}
         <nav className="flex items-center gap-1">
           {[
+            { href: '/tools',      label: '全部' },
             { href: '/new',        label: '最新' },
-            { href: '/deals',      label: '优惠' },
+            // 优惠暂时隐藏（上线前关闭）
+            // { href: '/deals',      label: '优惠' },
             { href: '/graveyard',  label: '墓碑' },
             { href: '/submit',     label: '提交' },
           ].map(({ href, label }) => (

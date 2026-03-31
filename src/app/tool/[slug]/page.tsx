@@ -73,6 +73,12 @@ export default async function ToolPage({ params }: Props) {
   const description =
     tool.description_zh || tool.description_en || null;
 
+  // official_url: real external website URL (stored in DB, falls back to tool.url if same-domain issue)
+  // affiliate_url: commission/partner link (stored in DB)
+  // tool.url: always internal dang.ai link (DO NOT use for "Visit Official Website")
+  const officialUrl = tool.official_url || null;
+  const hasValidOfficialUrl = officialUrl && officialUrl.startsWith('http');
+
   // ── Similar tools ──────────────────────────────────────────
   const { data: similarTools } = await supabase
     .from('tools')
@@ -257,17 +263,26 @@ export default async function ToolPage({ params }: Props) {
 
           {/* ── CTA ── */}
           <div className="reveal reveal-delay-5 mb-10 flex flex-wrap gap-3">
-            <a
-              href={tool.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[--brand-orange] hover:bg-[#c4674a] text-white font-medium text-sm shadow-sm transition-all hover:shadow-md active:scale-95"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
-              </svg>
-              访问官网
-            </a>
+            {hasValidOfficialUrl ? (
+              <a
+                href={officialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[--brand-orange] hover:bg-[#c4674a] text-white font-medium text-sm shadow-sm transition-all hover:shadow-md active:scale-95"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+                </svg>
+                访问官网
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-muted text-muted-foreground font-medium text-sm cursor-not-allowed">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+                </svg>
+                官网链接待补充
+              </span>
+            )}
 
             {tool.affiliate_url && (
               <a
@@ -280,7 +295,7 @@ export default async function ToolPage({ params }: Props) {
                   size="sm"
                   className="h-11 gap-2 border-border text-sm"
                 >
-                  🔗 Affiliate 链接
+                  🔗 返利链接
                 </Button>
               </a>
             )}
